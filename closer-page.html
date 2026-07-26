@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Your LaunchKit Position</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+  TRACKING PIXELS — fill in your own IDs, uncomment what you use.
+  Fires on page LOAD. Per-tier CONVERSION events fire in the JS
+  block near the bottom of this file when a CTA is clicked.
+============================================================= -->
+
+<!-- ClickMagick: replace CAMPAIGN_ID with yours -->
+<!--
+<script src="https://cmck.co/t.js" data-campaign="CAMPAIGN_ID"></script>
+-->
+
+<!-- Facebook Pixel -->
+<!--
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'YOUR_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
+-->
+
+<!-- Google Analytics 4 -->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXX');
+</script>
+-->
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<style>
+  :root{
+    --bg-deep:#241021;
+    --bg-panel:#341A30;
+    --brass:#C9A24B;
+    --brass-soft:#E4C57E;
+    --cream:#F5EFE6;
+    --cream-dim:#CBB9C4;
+    --line: rgba(245,239,230,0.13);
+    --lk1:#8C6BAE;
+    --lk2:#C9A24B;
+    --lk3:#E36A5C;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg-deep);
+    color: var(--cream);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+  a{color:inherit;}
+
+  .wrap{max-width:1180px; margin:0 auto; padding: 0 6vw;}
+
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 26px 0 0;
+  }
+  .brand{font-family:'Fraunces', serif; font-weight:500; font-size:1.05rem; color:var(--brass-soft);}
+  .brand span{color:var(--cream-dim); font-family:'Inter'; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.14em; margin-left:10px;}
+
+  .hero{
+    display:grid; grid-template-columns: 1fr 0.85fr; gap:56px;
+    align-items:center;
+    padding: 56px 0 44px;
+  }
+  @media (max-width:920px){ .hero{grid-template-columns:1fr;} }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--brass-soft);
+    border:1px solid var(--line);
+    padding:6px 14px; border-radius:999px;
+    margin-bottom:24px;
+  }
+
+  h1{
+    font-family:'Fraunces', serif; font-weight:500;
+    font-size: clamp(2.1rem, 4vw, 3.2rem);
+    line-height:1.1; margin:0 0 20px; letter-spacing:-0.01em;
+  }
+  h1 em{ font-style:italic; color:var(--brass-soft); }
+
+  .subhead{
+    font-size:1.1rem; line-height:1.55; color:var(--cream-dim);
+    max-width: 48ch; margin:0 0 30px;
+  }
+
+  .stat-row{ display:flex; gap:28px; flex-wrap:wrap; margin-bottom:34px; }
+  .stat{ border-left:2px solid var(--brass); padding-left:14px; }
+  .stat b{ display:block; font-family:'Fraunces', serif; font-size:1.5rem; color:var(--cream); }
+  .stat span{ font-size:0.78rem; color:var(--cream-dim); }
+
+  .email-input{
+    background: var(--bg-deep);
+    border: 1px solid var(--line);
+    color: var(--cream);
+    font-family:'Inter', sans-serif;
+    font-size: 1rem;
+    padding: 15px 18px;
+    border-radius: 8px;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .email-input::placeholder{ color: var(--cream-dim); }
+  .email-input:focus{
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(201,162,75,0.18);
+  }
+  .email-gate{
+    max-width: 460px;
+    margin: 0 0 26px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .email-gate label{ font-size:0.82rem; color:var(--cream-dim); }
+  .form-error{ font-size:0.8rem; color:#F2A79C; display:none; }
+  .form-error.show{ display:block; }
+
+  .cta-btn{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--brass); color:#241021; font-weight:700; font-size:1rem;
+    padding:15px 28px; border-radius:8px; text-decoration:none;
+    border:none; cursor:pointer;
+    font-family:'Inter', sans-serif;
+    transition: transform 0.18s ease, background 0.18s ease;
+  }
+  .cta-btn:hover{ transform:translateY(-2px); background:var(--brass-soft); }
+  .cta-btn:focus-visible{ outline:2px solid var(--cream); outline-offset:3px; }
+
+  /* Signature visual: ascending position steps */
+  .steps{
+    display:flex; flex-direction:column-reverse; gap:14px;
+    padding: 10px 0;
+  }
+  .step{
+    border-radius:12px;
+    border:1px solid var(--line);
+    background: var(--bg-panel);
+    padding:18px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+  }
+  .step:hover{ transform: translateX(6px); }
+  .step .name{ font-family:'Fraunces', serif; font-size:1.05rem; }
+  .step .pay{ font-size:0.85rem; color:var(--cream-dim); }
+  .step.lk1{ width:78%; border-left:4px solid var(--lk1); }
+  .step.lk2{ width:90%; border-left:4px solid var(--lk2); align-self:center; }
+  .step.lk3{
+    width:100%; border-left:4px solid var(--lk3);
+    box-shadow: 0 0 34px -6px rgba(227,106,92,0.45);
+    animation: glow 3.2s ease-in-out infinite;
+  }
+  @keyframes glow{
+    0%,100%{ box-shadow: 0 0 34px -6px rgba(227,106,92,0.45); }
+    50%{ box-shadow: 0 0 50px -4px rgba(227,106,92,0.7); }
+  }
+  .badge{
+    font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase;
+    background: rgba(227,106,92,0.16); color:#F2A79C;
+    padding:3px 9px; border-radius:999px; margin-left:8px;
+  }
+
+  /* Pricing cards */
+  .cards{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:22px;
+    padding: 10px 0 50px;
+  }
+  @media (max-width:920px){ .cards{grid-template-columns:1fr;} }
+  .card{
+    background: var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:30px 26px;
+    display:flex; flex-direction:column;
+  }
+  .card.featured{
+    border-color: var(--lk3);
+    box-shadow: 0 20px 50px -20px rgba(227,106,92,0.5);
+    position:relative;
+  }
+  .card.featured::before{
+    content:'Best Positioning';
+    position:absolute; top:-13px; left:26px;
+    background: var(--lk3); color:#241021;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.06em;
+    padding:5px 12px; border-radius:999px;
+  }
+  .card h3{ font-family:'Fraunces', serif; font-weight:500; font-size:1.3rem; margin:6px 0 4px; }
+  .card .price{ font-family:'Fraunces', serif; font-size:2.1rem; color:var(--brass-soft); margin:0 0 4px; }
+  .card .price span{ font-size:0.9rem; color:var(--cream-dim); font-family:'Inter'; }
+  .card .payline{ font-size:0.85rem; color:var(--cream-dim); margin-bottom:18px; }
+  .card ul{ list-style:none; padding:0; margin:0 0 24px; display:flex; flex-direction:column; gap:10px; flex:1; }
+  .card li{ font-size:0.9rem; display:flex; gap:8px; align-items:flex-start; }
+  .card li::before{ content:'✓'; color:var(--brass); flex:none; }
+  .card .cta-btn{ justify-content:center; }
+  .card.mid .cta-btn{ background: var(--brass); }
+  .card.entry .cta-btn{ background: var(--lk1); color: var(--cream); }
+  .card.entry .cta-btn:hover{ background:#a487c8; }
+
+  .faq{ padding: 10px 0 60px; }
+  .faq h2{ font-family:'Fraunces', serif; font-weight:500; font-size:1.7rem; margin-bottom:26px; }
+  .qa{ border-top:1px solid var(--line); padding:18px 0; }
+  .qa:last-child{ border-bottom:1px solid var(--line); }
+  .qa .q{ font-weight:600; margin-bottom:8px; }
+  .qa .a{ color:var(--cream-dim); font-size:0.94rem; line-height:1.6; max-width:70ch; }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding: 26px 0 50px;
+    font-size:0.72rem; color: rgba(203,185,196,0.65); line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">Limitless AI LaunchKits<span>Powered by LLS</span></div>
+  </div>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Direct pay · Recurring income · Leverage</div>
+      <h1>Choose Your Position. <em>Launch With a Daily Plan.</em></h1>
+      <p class="subhead">An AI-guided daily action plan plus direct-pay commissions — built on the Limitless Lead System so your list keeps compounding after day one.</p>
+
+      <div class="stat-row">
+        <div class="stat"><b>$25–$250</b><span>Direct pay per sale</span></div>
+        <div class="stat"><b>7–90 day</b><span>Guided action plans</span></div>
+        <div class="stat"><b>Same day</b><span>PayPal payout</span></div>
+      </div>
+
+      <a class="cta-btn" href="#pricing">
+        Choose Your LaunchKit
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="steps" aria-hidden="true">
+      <div class="step lk1"><span class="name">LK1 — Activate</span><span class="pay">$25 / sale</span></div>
+      <div class="step lk2"><span class="name">LK2 — Execute</span><span class="pay">$100 / sale</span></div>
+      <div class="step lk3"><span class="name">LK3 — Compound<span class="badge">Max leverage</span></span><span class="pay">$250 / sale</span></div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding:0;">
+    <div class="email-gate">
+      <label for="closerEmail">Enter your email — we'll send your receipt and login details here</label>
+      <input class="email-input" type="email" id="closerEmail" placeholder="you@email.com" required>
+      <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div>
+      <div class="form-error" id="closerCaptchaError">Please check the box to confirm you're not a robot.</div>
+      <div class="form-error" id="closerError">Enter a valid email address before choosing a tier.</div>
+    </div>
+  </div>
+
+  <div id="pricing" class="cards">
+    <div class="card entry">
+      <h3>LK1 — Activate</h3>
+      <div class="price">$37</div>
+      <div class="payline">Earn $25 direct pay per sale</div>
+      <ul>
+        <li>7-day activation sprint</li>
+        <li>AI content prompts for posts, ads, emails</li>
+        <li>Leads growth engine, foundation tier</li>
+        <li>Done-for-you social content</li>
+        <li>15% on LLS premium upgrades</li>
+      </ul>
+      <button class="cta-btn tier-cta" data-url="https://limitlessleadsystem.com/join/Isaiahteam20065?membership=22&billing=44" data-tier="LK1">Start With LK1</button>
+    </div>
+
+    <div class="card featured">
+      <h3>LK3 — Compound</h3>
+      <div class="price">$297</div>
+      <div class="payline">Earn $250 direct pay, plus LK2 + LK1 overrides</div>
+      <ul>
+        <li>Everything in LK1 + LK2</li>
+        <li>90-day execution plan</li>
+        <li>Advanced AI prompt library</li>
+        <li>Weekly implementation coaching</li>
+        <li>Maximum transfer-over positioning</li>
+      </ul>
+      <button class="cta-btn tier-cta" data-url="https://limitlessleadsystem.com/join/Isaiahteam20065?membership=22&billing=49" data-tier="LK3">Claim LK3 Positioning</button>
+    </div>
+
+    <div class="card mid">
+      <h3>LK2 — Execute</h3>
+      <div class="price">$137</div>
+      <div class="payline">Earn $100 direct pay, plus $25 on LK1</div>
+      <ul>
+        <li>Everything in LK1</li>
+        <li>30-day execution plan</li>
+        <li>AI Twin / faceless marketing training</li>
+        <li>Weekly live coaching</li>
+        <li>15% on LLS premium upgrades</li>
+      </ul>
+      <button class="cta-btn tier-cta" data-url="https://limitlessleadsystem.com/join/Isaiahteam20065?membership=22&billing=32" data-tier="LK2">Move Up to LK2</button>
+    </div>
+  </div>
+
+  <div class="faq">
+    <h2>Before you choose</h2>
+
+    <div class="qa">
+      <div class="q">How does the leverage/transfer-over piece work?</div>
+      <div class="a">As people in your customer base take daily action, some of them generate sales at levels you don't personally own — those commissions transfer to the closest member above them who does own that level. Higher positioning (LK3) is built to catch more of that transfer activity. Full mechanics are covered in member training.</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">Can I start at LK1 and move up later?</div>
+      <div class="a">Yes. Your commission position is tied to the highest level you currently own, so moving up sooner means you're positioned to catch more of the transfer-over activity as it happens, rather than after the fact.</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">Refunds?</div>
+      <div class="a">These are instant-access digital products. All sales are final — there's no refund window, so choose the tier that matches what you're ready to commit to.</div>
+    </div>
+  </div>
+
+  <footer>
+    DISCLAIMER — THIS WEBSITE WAS DESIGNED AND IS MAINTAINED BY AN INDEPENDENT AFFILIATE OF LIMITLESS LEAD SYSTEM (LLS). LIMITLESS LEAD SYSTEM (LLS) IS NOT RESPONSIBLE FOR ANY OF ITS CONTENT AND THEREFORE WILL NOT BE HELD LIABLE. THE OWNER OF WEBSITE IS THE ONLY ONE LIABLE FOR ANY AND ALL OF IT'S CONTENT. Individual results vary — no income is guaranteed.
+  </footer>
+
+</div>
+
+<script>
+  // ---- BREVO SETUP ----
+  // Get this from: Brevo dashboard > Contacts > Forms > Create a form (Classic)
+  // Copy the form's "action" URL from the generated embed code and paste it here.
+  var BREVO_FORM_ACTION = "https://YOUR-ACCOUNT-ID.sibforms.com/serve/YOUR-FORM-ID";
+
+  function sendToBrevo(email, tier){
+    var formData = new FormData();
+    formData.append('EMAIL', email);
+    // Optional: if you've added a custom "TIER" attribute in Brevo's contact
+    // fields, this tags the contact with which LaunchKit tier they clicked.
+    // formData.append('TIER', tier);
+
+    fetch(BREVO_FORM_ACTION, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    }).catch(function(err){ console.warn('Brevo submit failed', err); });
+  }
+
+  function getIncomingParams(){
+    return new URLSearchParams(window.location.search);
+  }
+
+  function fireConversionPixel(tier, email){
+    // ---- Uncomment / fill in whichever tracker you're using ----
+
+    // ClickMagick conversion pixel:
+    // var img = new Image();
+    // img.src = "https://cmck.co/conv.gif?campaign=CAMPAIGN_ID&type=sale&tier=" + tier;
+    // document.body.appendChild(img);
+
+    // Facebook Pixel purchase-intent event:
+    // if (typeof fbq === 'function') { fbq('track', 'InitiateCheckout', {content_name: tier}); }
+
+    // GA4 event:
+    // if (typeof gtag === 'function') { gtag('event', 'select_tier', {tier: tier}); }
+  }
+
+  var emailField = document.getElementById('closerEmail');
+  var closerError = document.getElementById('closerError');
+
+  document.querySelectorAll('.tier-cta').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var email = emailField.value.trim();
+      if (!emailField.checkValidity() || email === '') {
+        closerError.classList.add('show');
+        emailField.focus();
+        emailField.scrollIntoView({behavior:'smooth', block:'center'});
+        return;
+      }
+      closerError.classList.remove('show');
+
+      var closerCaptchaError = document.getElementById('closerCaptchaError');
+      var captchaResponse = (typeof grecaptcha !== 'undefined') ? grecaptcha.getResponse() : '';
+      if (!captchaResponse) {
+        closerCaptchaError.classList.add('show');
+        return;
+      }
+      closerCaptchaError.classList.remove('show');
+
+      var tier = btn.getAttribute('data-tier');
+      sendToBrevo(email, tier);
+      fireConversionPixel(tier, email);
+
+      var params = getIncomingParams();
+      params.set('email', email);
+
+      var destUrl = new URL(btn.getAttribute('data-url'));
+      params.forEach(function(value, key){ destUrl.searchParams.set(key, value); });
+
+      window.location.href = destUrl.toString();
+    });
+  });
+</script>
+
+</body>
+</html>
